@@ -22,8 +22,10 @@ phases:
       - echo Pushing Docker image to ECR...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
       - printf '[{"name":"backend-container","imageUri":"%s.dkr.ecr.%s.amazonaws.com/%s:%s"}]' $AWS_ACCOUNT_ID $AWS_REGION $ECR_REPOSITORY $IMAGE_TAG > imagedefinitions.json
+      - echo $IMAGE_TAG > image_tag.txt
 
 artifacts:
   files:
     - imagedefinitions.json
     - appspec.yaml
+    - image_tag.txt
