@@ -11,13 +11,12 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-      - IMAGE_TAG="latest"
+      - IMAGE_TAG=$CODEBUILD_BUILD_NUMBER
+      - echo IMAGE_TAG=$IMAGE_TAG > imageTag.env
   build:
     commands:
       - echo Building Docker image...
-      - echo $API_BASE_URL
-      - echo $IMAGE_TAG
-      - docker build --build-arg API_BASE_URL=$API_BASE_URL  -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG .
+      - docker build --build-arg API_BASE_URL=$API_BASE_URL -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG .
   post_build:
     commands:
       - echo Pushing Docker image to ECR...
@@ -28,4 +27,5 @@ artifacts:
   files:
     - imagedefinitions.json
     - appspec.yaml
+    - deploy.sh
     - imageTag.env
