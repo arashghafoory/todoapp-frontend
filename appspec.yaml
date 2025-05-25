@@ -2,10 +2,10 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/app
+    destination: /tmp/appdeploy
 
 hooks:
   AfterInstall:
-    - location: /home/ec2-user/app/deploy.sh
+    - location: /tmp/appdeploy/deploy.sh
       timeout: 300
       runas: ec2-user
