@@ -11,8 +11,9 @@ hooks:
         #!/bin/bash
         set -e
 
+        IMAGE_TAG="#{BuildVariables.IMAGE_TAG}"
         APP_NAME="$APP_NAME"
-        IMAGE_URI="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$APP_NAME:latest"
+        IMAGE_URI="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$APP_NAME:$IMAGE_TAG"
 
         echo "Logging in to ECR..."
         aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
