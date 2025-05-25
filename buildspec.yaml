@@ -15,6 +15,8 @@ phases:
   build:
     commands:
       - echo Building Docker image...
+      - echo $API_BASE_URL
+      - echo $IMAGE_TAG
       - docker build --build-arg API_BASE_URL=$API_BASE_URL  -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG .
   post_build:
     commands:
