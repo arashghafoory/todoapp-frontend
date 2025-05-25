@@ -12,17 +12,16 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
       - IMAGE_TAG=$CODEBUILD_BUILD_NUMBER
-      - echo "IMAGE_TAG=$IMAGE_TAG" > imageTag.env
   build:
     commands:
       - echo Building Docker image...
       - docker build --build-arg API_BASE_URL=$API_BASE_URL  -t $ECR_REPOSITORY:$IMAGE_TAG .
-      - docker tag $ECR_REPOSITORY:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
+      - docker tag $ECR_REPOSITORY:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
   post_build:
     commands:
       - echo Pushing Docker image to ECR...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
-      - printf '[{"name":"backend-container","imageUri":"%s.dkr.ecr.%s.amazonaws.com/%s:%s"}]' $AWS_ACCOUNT_ID $AWS_REGION $ECR_REPOSITORY $IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"frontend-container","imageUri":"%s.dkr.ecr.%s.amazonaws.com/%s:%s"}]' $AWS_ACCOUNT_ID $AWS_REGION $ECR_REPOSITORY $IMAGE_TAG > imagedefinitions.json
 
 artifacts:
   files:
