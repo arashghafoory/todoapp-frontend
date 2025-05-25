@@ -26,6 +26,6 @@ phases:
 artifacts:
   files:
     - imagedefinitions.json
-    - appspec.yaml
+    - appspec.yml
     - deploy.sh
     - imageTag.env
