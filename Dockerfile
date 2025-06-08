@@ -7,7 +7,7 @@ COPY . .
 
 # Pass build argument and set environment variable
 ARG API_BASE_URL
-ENV API_BASE_URL=${API_BASE_URL}
+ENV REACT_APP_API_BASE_URL=${API_BASE_URL}
 
 # Print the API_BASE_URL during build for debugging
 RUN echo "[Build] API_BASE_URL is: ${API_BASE_URL}"
